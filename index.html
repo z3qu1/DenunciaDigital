@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Denuncia Digital · El Kenko, El Alto</title>
+<meta name="description" content="Plataforma de denuncia digital para la zona El Kenko, El Alto, La Paz.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="header" id="header">
+  <a href="#inicio" class="logo"><span class="logo-mark">DD</span> Denuncia Digital</a>
+  <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+  <nav class="nav" id="nav">
+    <a href="#inicio">Inicio</a>
+    <a href="#como">Cómo funciona</a>
+    <a href="#tipos">Tipos de denuncia</a>
+    <a href="#comunidad">Comunidad</a>
+    <a href="#contacto" class="btn btn-sm">Denunciar</a>
+  </nav>
+</header>
+
+<main>
+<!-- CARRUSEL -->
+<section class="hero" id="inicio" aria-label="Destacados">
+  <div class="slides" id="slides">
+    <article class="slide active s1">
+      <div class="slide-txt">
+        <h1>Tu voz protege a El Kenko</h1>
+        <p>Denuncia desde tu celular, sin filas y sin miedo. Tu reporte llega directo a la directiva de la zona.</p>
+        <a href="#contacto" class="btn">Hacer una denuncia</a>
+      </div>
+    </article>
+    <article class="slide s2">
+      <div class="slide-txt">
+        <h2>Vecinos atentos, barrio seguro</h2>
+        <p>Reporta robos, luminarias apagadas, basura o ruidos molestos en minutos.</p>
+        <a href="#tipos" class="btn">Ver tipos de denuncia</a>
+      </div>
+    </article>
+    <article class="slide s3">
+      <div class="slide-txt">
+        <h2>Una comunidad conectada</h2>
+        <p>Conoce a tus dirigentes, teléfonos de emergencia y las reuniones de la zona.</p>
+        <a href="#comunidad" class="btn">Conocer la comunidad</a>
+      </div>
+    </article>
+  </div>
+  <svg class="skyline" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 120V80l60-20 50 25 70-40 80 30 60-35 90 40 70-25 80 30 90-45 70 35 80-20 100 40 70-30 80 25 50-15v90z" fill="#050505"/>
+  </svg>
+  <button class="arrow prev" id="prev" aria-label="Anterior">‹</button>
+  <button class="arrow next" id="next" aria-label="Siguiente">›</button>
+  <div class="dots" id="dots"></div>
+  <div class="progress"><span id="bar"></span></div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section class="section" id="como">
+  <h2 class="title reveal">Denunciar es simple</h2>
+  <ol class="steps">
+    <li class="step reveal"><b>1</b><h3>Cuéntanos qué pasó</h3><p>Describe el hecho, el lugar y la hora.</p></li>
+    <li class="step reveal"><b>2</b><h3>Adjunta evidencia</h3><p>Sube una foto o un video si lo tienes.</p></li>
+    <li class="step reveal"><b>3</b><h3>Seguimiento</h3><p>Recibe un código para saber el estado de tu caso.</p></li>
+  </ol>
+</section>
+
+<!-- TIPOS -->
+<section class="section dark" id="tipos">
+  <h2 class="title reveal">¿Qué puedes denunciar?</h2>
+  <div class="grid">
+    <div class="card reveal"><span class="ico">🚨</span><h3>Seguridad</h3><p>Robos, asaltos, personas sospechosas.</p></div>
+    <div class="card reveal"><span class="ico">💡</span><h3>Alumbrado</h3><p>Luminarias dañadas o calles oscuras.</p></div>
+    <div class="card reveal"><span class="ico">🗑️</span><h3>Basura</h3><p>Botaderos clandestinos y falta de recojo.</p></div>
+    <div class="card reveal"><span class="ico">🔊</span><h3>Ruidos</h3><p>Fiestas y locales fuera de horario.</p></div>
+    <div class="card reveal"><span class="ico">🚰</span><h3>Servicios básicos</h3><p>Fugas de agua, cortes de luz o gas.</p></div>
+    <div class="card reveal"><span class="ico">🛣️</span><h3>Vías y transporte</h3><p>Baches, tránsito y paradas inseguras.</p></div>
+  </div>
+</section>
+
+<!-- COMUNIDAD -->
+<section class="section" id="comunidad">
+  <h2 class="title reveal">Información de la comunidad</h2>
+  <div class="tabs reveal" role="tablist">
+    <button class="tab active" data-tab="t1" role="tab">Sobre El Kenko</button>
+    <button class="tab" data-tab="t2" role="tab">Emergencias</button>
+    <button class="tab" data-tab="t3" role="tab">Directiva y reuniones</button>
+  </div>
+  <div class="panel active" id="t1">
+    <p>El Kenko es una zona de la ciudad de El Alto, departamento de La Paz. Denuncia Digital nace para que los vecinos se organicen, reporten problemas y trabajen junto a sus dirigentes por un barrio más seguro y limpio.</p>
+  </div>
+  <div class="panel" id="t2">
+    <ul class="contacts">
+      <li><span>Policía</span><a href="tel:110">110</a></li>
+      <li><span>Bomberos</span><a href="tel:119">119</a></li>
+      <li><span>Ambulancia</span><a href="tel:118">118</a></li>
+    </ul>
+    <small>Verifica y actualiza estos números con tu junta vecinal.</small>
+  </div>
+  <div class="panel" id="t3">
+    <ul class="contacts">
+      <li><span>Presidente(a) de la zona</span><em>Nombre por definir</em></li>
+      <li><span>Reunión mensual</span><em>Fecha y hora por definir</em></li>
+      <li><span>Sede vecinal</span><em>Dirección por definir</em></li>
+    </ul>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="section dark" id="contacto">
+  <h2 class="title reveal">Haz tu denuncia</h2>
+  <form class="form reveal" id="form" novalidate>
+    <input type="text" name="nombre" placeholder="Tu nombre (opcional)">
+    <select name="tipo" required>
+      <option value="">Tipo de denuncia</option>
+      <option>Seguridad</option><option>Alumbrado</option><option>Basura</option>
+      <option>Ruidos</option><option>Servicios básicos</option><option>Vías y transporte</option>
+    </select>
+    <textarea name="detalle" rows="4" placeholder="Describe qué ocurrió y dónde" required></textarea>
+    <button type="submit" class="btn">Enviar denuncia</button>
+    <p class="msg" id="msg" role="status"></p>
+  </form>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="foot-grid">
+    <div><a href="#inicio" class="logo"><span class="logo-mark">DD</span> Denuncia Digital</a><p>Zona El Kenko, El Alto, La Paz, Bolivia.</p></div>
+    <div><h4>Enlaces</h4><a href="#como">Cómo funciona</a><a href="#tipos">Tipos de denuncia</a><a href="#comunidad">Comunidad</a></div>
+    <div><h4>Emergencias</h4><a href="tel:110">Policía 110</a><a href="tel:119">Bomberos 119</a></div>
+  </div>
+  <p class="copy">© <span id="year"></span> Denuncia Digital · Hecho para la comunidad de El Kenko</p>
+</footer>
+<button class="top" id="top" aria-label="Volver arriba">↑</button>
+<script src="script.js"></script>
+</body>
+</html>
