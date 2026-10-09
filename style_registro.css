@@ -1,0 +1,12 @@
+/* style_registro.css | Estilos extra solo para registro.php (se carga después de style_login.css) */
+/* ---------- Extras del registro ---------- */
+    .layout > .brand { position: sticky; top: 0; height: 100vh; height: 100dvh; align-self: start; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .grid2 .field { min-width: 0; }
+    .rules { margin: 2px 4px 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: .75rem; color: var(--muted); }
+    .rules li::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 6px; border-radius: 50%; background: var(--line-2); transition: background .2s; }
+    .rules li.ok { color: var(--text); }
+    .rules li.ok::before { background: var(--ok); }
+    .btn.top { margin-top: 18px; }
+    @media (max-width: 860px) { .layout > .brand { position: static; height: auto; } }
+    @media (max-width: 440px) { .grid2 { grid-template-columns: 1fr; gap: 0; } }
