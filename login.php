@@ -1,20 +1,14 @@
 <?php
-/* =====================================================================
-   login.php  |  Denuncia Digital
-   Todo en un solo archivo: backend (PHP) + HTML + CSS + JS
-   Tabla: usuario (id, nombre, correo, contrasena, direccion, apellido)
-   ===================================================================== */
 
-// ---------- Configuración rápida ----------
-const PAGINA_DESTINO       = 'index.html';   // A dónde ir después de iniciar sesión
-const PAGINA_REGISTRO      = 'registro.php'; // Enlace "Regístrate"
-const PAGINA_RECUPERAR     = 'recuperar.php';// Enlace "¿Olvidaste tu contraseña?"
-const MAX_INTENTOS         = 5;              // Intentos fallidos antes de bloquear
-const SEGUNDOS_BLOQUEO     = 60;             // Duración del bloqueo
-const DIAS_RECORDAR        = 30;             // Duración de sesión con "Recordarme"
-const PERMITIR_TEXTO_PLANO = true;           // true = acepta contraseñas sin cifrar (solo mientras migras a password_hash)
+const PAGINA_DESTINO       = 'index.php';
+const PAGINA_REGISTRO      = 'registro.php';
+const PAGINA_RECUPERAR     = 'recuperar.php';
+const MAX_INTENTOS         = 5;
+const SEGUNDOS_BLOQUEO     = 60;
+const DIAS_RECORDAR        = 30;
+const PERMITIR_TEXTO_PLANO = false;
+const PAGINA_ADMIN         = 'admin_reportes.php';
 
-// ---------- Sesión ----------
 session_set_cookie_params([
     'lifetime' => 0,
     'path'     => '/',
@@ -26,7 +20,8 @@ session_start();
 
 // Si ya hay sesión activa, ir directo al sistema
 if (!empty($_SESSION['usuario']['id']) && $_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ' . PAGINA_DESTINO);
+    $esAdmin = ($_SESSION['usuario']['rol'] ?? '') === 'admin';
+    header('Location: ' . ($esAdmin ? PAGINA_ADMIN : PAGINA_DESTINO));
     exit;
 }
 
@@ -88,18 +83,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usuario = null;
     try {
         if ($db instanceof PDO) {
-            $st = $db->prepare('SELECT id, nombre, apellido, correo, contrasena, direccion FROM usuario WHERE correo = ? LIMIT 1');
+            $st = $db->prepare('SELECT id, nombre, apellido, correo, contrasena, direccion, rol FROM usuario WHERE correo = ? LIMIT 1');
             $st->execute([$correo]);
             $usuario = $st->fetch(PDO::FETCH_ASSOC) ?: null;
         } elseif ($db instanceof mysqli) {
-            $st = $db->prepare('SELECT id, nombre, apellido, correo, contrasena, direccion FROM usuario WHERE correo = ? LIMIT 1');
+            $st = $db->prepare('SELECT id, nombre, apellido, correo, contrasena, direccion, rol FROM usuario WHERE correo = ? LIMIT 1');
             $st->bind_param('s', $correo);
             $st->execute();
-            $st->bind_result($id, $nombre, $apellido, $correoDb, $hash, $direccion);
+            $st->bind_result($id, $nombre, $apellido, $correoDb, $hash, $direccion, $rol);
             if ($st->fetch()) {
                 $usuario = [
                     'id' => $id, 'nombre' => $nombre, 'apellido' => $apellido,
                     'correo' => $correoDb, 'contrasena' => $hash, 'direccion' => $direccion,
+                    'rol' => $rol,
                 ];
             }
             $st->close();
@@ -113,12 +109,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // 6) Verificar contraseña (hash moderno o texto plano si está permitido)
     $valido = false;
+    $migrar = false;
     if ($usuario) {
         $guardada = (string)$usuario['contrasena'];
         if (password_get_info($guardada)['algo'] !== null) {
             $valido = password_verify($password, $guardada);
         } elseif (PERMITIR_TEXTO_PLANO) {
             $valido = hash_equals($guardada, $password);
+            $migrar = $valido;
         }
     } else {
         // Evita revelar si el correo existe (consume tiempo similar)
@@ -136,6 +134,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $responder(false, "Correo o contraseña incorrectos. Te quedan {$quedan} intentos.", [], 401);
     }
 
+    // Los administradores ingresan por login_admin.php
+    if (($usuario['rol'] ?? '') === 'admin') {
+        $responder(false, 'Las cuentas de administrador ingresan desde el botón "Administrador".', [], 403);
+    }
+
+    // Convierte contraseñas antiguas (texto plano) a hash
+    if ($migrar && $db instanceof mysqli) {
+        try {
+            $nuevoHash = password_hash($password, PASSWORD_DEFAULT);
+            $up = $db->prepare('UPDATE usuario SET contrasena = ? WHERE id = ?');
+            $up->bind_param('si', $nuevoHash, $usuario['id']);
+            $up->execute();
+        } catch (Throwable $e) {
+            error_log('[login.php] migración de hash: ' . $e->getMessage());
+        }
+    }
+
     // 7) Inicio de sesión correcto
     session_regenerate_id(true);
     unset($_SESSION['intentos'], $_SESSION['bloqueo_hasta']);
@@ -145,6 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'apellido'  => $usuario['apellido'],
         'correo'    => $usuario['correo'],
         'direccion' => $usuario['direccion'],
+        'rol'       => 'usuario',
     ];
     $_SESSION['csrf'] = bin2hex(random_bytes(32));
 
@@ -310,7 +326,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       transition: background-color 9999s ease-out 0s;
     }
 
-    /* Texto de ayuda / error (en el flujo, ya no se solapa) */
+    /* Texto de ayuda / error */
     .hint { display: block; min-height: 18px; margin: 6px 4px 0; font-size: .78rem; line-height: 1.3; color: var(--muted); }
     .field.invalid .hint { color: var(--err); }
 
@@ -387,7 +403,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     .toast-close:hover { color: var(--text); background: rgba(255,255,255,.08); }
     .toast-close:focus-visible { outline: 2px solid var(--sky); }
     .toast-bar { position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: currentColor; opacity: .55; transform-origin: left; animation: bar linear forwards; }
-    .toast { color: var(--text); }
     .toast .toast-bar { color: var(--sky); }
     .toast.success .toast-bar { color: var(--ok); }
     .toast.error .toast-bar { color: var(--err); }
@@ -396,6 +411,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     @keyframes toast-in  { from { opacity: 0; transform: translateX(28px) scale(.98); } to { opacity: 1; transform: none; } }
     @keyframes toast-out { to { opacity: 0; transform: translateX(28px); max-height: 0; padding-block: 0; margin-block: -5px; } }
     @keyframes bar { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+
+    /* ================= ENLACE ADMINISTRADOR ================= */
+    .admin-link {
+      position: fixed; top: 16px; right: 18px; z-index: 20;
+      padding: 8px 14px; font-size: .85rem; text-decoration: none;
+      color: var(--sky-2); background: rgba(12,20,28,.85);
+      border: 1px solid var(--line-2); border-radius: 999px;
+    }
+    .admin-link:hover { border-color: var(--sky); }
 
     /* ================= RESPONSIVE ================= */
     @media (max-width: 860px) {
@@ -416,6 +440,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </style>
 </head>
 <body>
+  <a class="admin-link" href="login_administrador.php">Administrador</a>
+
   <main class="layout">
     <!-- Panel de marca con radar animado -->
     <section class="brand" aria-hidden="true">
@@ -505,11 +531,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     function toast(msg, type = 'info', ms = 5000) {
-      // Evita duplicados: si ya hay uno igual, lo reemplaza
       [...toasts.children].forEach(el => {
         if (el.dataset.msg === msg) el.remove();
       });
-      // Máximo 3 a la vez
       while (toasts.children.length >= 3) toasts.firstElementChild.remove();
 
       const t = document.createElement('div');
@@ -525,7 +549,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         '</button>' +
         '<span class="toast-bar"></span>';
 
-      t.querySelector('.toast-msg').textContent = msg;       // texto seguro
+      t.querySelector('.toast-msg').textContent = msg;
       t.querySelector('.toast-bar').style.animationDuration = ms + 'ms';
       t.querySelector('.toast-close').addEventListener('click', () => removeToast(t));
       t.querySelector('.toast-bar').addEventListener('animationend', () => removeToast(t));
@@ -597,7 +621,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     function shake() {
       card.classList.remove('shake');
-      void card.offsetWidth;              // reinicia la animación
+      void card.offsetWidth;
       card.classList.add('shake');
     }
 
@@ -656,8 +680,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (data.ok) {
           toast(data.mensaje || 'Sesión iniciada.', 'success', 2500);
-          btn.classList.add('loading');   // el botón queda bloqueado mientras redirige
-          setTimeout(() => { window.location.href = data.redirigir || 'index.html'; }, 800);
+          btn.classList.add('loading');
+          setTimeout(() => { window.location.href = data.redirigir || 'index.php'; }, 800);
           return;
         }
 

@@ -1,104 +1,122 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const $ = (s, c = document) => c.querySelector(s);
-  const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+(() => {
+  /* ---------- Año del pie de página ---------- */
+  const year = document.getElementById('year');
+  if (year) year.textContent = new Date().getFullYear();
 
-  /* Menú móvil */
-  const burger = $('#burger'), nav = $('#nav');
-  const closeMenu = () => { nav.classList.remove('open'); burger.classList.remove('open'); burger.setAttribute('aria-expanded', 'false'); };
-  burger.addEventListener('click', () => {
-    const open = nav.classList.toggle('open');
-    burger.classList.toggle('open', open);
-    burger.setAttribute('aria-expanded', open);
-  });
-  $$('a', nav).forEach(a => a.addEventListener('click', closeMenu));
+  /* ---------- Header con sombra al hacer scroll + botón subir ---------- */
+  const header = document.getElementById('header');
+  const topBtn = document.getElementById('top');
 
-  /* Header y botón subir */
-  const header = $('#header'), top = $('#top');
-  const onScroll = () => {
-    header.classList.toggle('scrolled', scrollY > 60);
-    top.classList.toggle('show', scrollY > 500);
-  };
-  addEventListener('scroll', onScroll, { passive: true }); onScroll();
-  top.addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
-
-  /* Carrusel */
-  const slides = $$('.slide'), dotsBox = $('#dots'), bar = $('#bar');
-  const DURATION = 6000;
-  let current = 0, timer, start;
-
-  slides.forEach((_, i) => {
-    const d = document.createElement('button');
-    d.className = 'dot'; d.setAttribute('aria-label', 'Ir a la diapositiva ' + (i + 1));
-    d.addEventListener('click', () => { go(i); });
-    dotsBox.appendChild(d);
-  });
-  const dots = $$('.dot');
-
-  function go(n) {
-    current = (n + slides.length) % slides.length;
-    slides.forEach((s, i) => s.classList.toggle('active', i === current));
-    dots.forEach((d, i) => d.classList.toggle('active', i === current));
-    restart();
+  function onScroll() {
+    if (header) header.classList.toggle('scrolled', window.scrollY > 20);
+    if (topBtn) topBtn.classList.toggle('show', window.scrollY > 500);
   }
-  function tick(t) {
-    if (!start) start = t;
-    const p = Math.min((t - start) / DURATION, 1);
-    bar.style.width = p * 100 + '%';
-    if (p >= 1) go(current + 1); else timer = requestAnimationFrame(tick);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  if (topBtn) {
+    topBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   }
-  function restart() { cancelAnimationFrame(timer); start = null; bar.style.width = '0'; timer = requestAnimationFrame(tick); }
 
-  $('#next').addEventListener('click', () => go(current + 1));
-  $('#prev').addEventListener('click', () => go(current - 1));
-  document.addEventListener('keydown', e => { if (e.key === 'ArrowRight') go(current + 1); if (e.key === 'ArrowLeft') go(current - 1); });
+  /* ---------- Menú hamburguesa ---------- */
+  const burger = document.getElementById('burger');
+  const nav = document.getElementById('nav');
 
-  // Deslizar con el dedo
-  const hero = $('#inicio'); let x0 = null;
-  hero.addEventListener('touchstart', e => x0 = e.touches[0].clientX, { passive: true });
-  hero.addEventListener('touchend', e => {
-    if (x0 === null) return;
-    const dx = e.changedTouches[0].clientX - x0;
-    if (Math.abs(dx) > 50) go(current + (dx < 0 ? 1 : -1));
-    x0 = null;
-  });
-  // Pausa cuando la pestaña no está visible
-  document.addEventListener('visibilitychange', () => document.hidden ? cancelAnimationFrame(timer) : restart());
-  go(0);
-
-  /* Pestañas de comunidad */
-  $$('.tab').forEach(tab => tab.addEventListener('click', () => {
-    $$('.tab').forEach(t => t.classList.remove('active'));
-    $$('.panel').forEach(p => p.classList.remove('active'));
-    tab.classList.add('active');
-    $('#' + tab.dataset.tab).classList.add('active');
-  }));
-
-  /* Animación al hacer scroll */
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((en, i) => {
-      if (en.isIntersecting) {
-        setTimeout(() => en.target.classList.add('in'), (i % 3) * 120);
-        io.unobserve(en.target);
-      }
+  if (burger && nav) {
+    burger.addEventListener('click', () => {
+      const abierto = nav.classList.toggle('open');
+      burger.setAttribute('aria-expanded', abierto ? 'true' : 'false');
     });
-  }, { threshold: .15 });
-  $$('.reveal').forEach(el => io.observe(el));
+    nav.querySelectorAll('a').forEach((a) => {
+      a.addEventListener('click', () => {
+        nav.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
 
-  /* Formulario (demostración: sin servidor) */
-  const form = $('#form'), msg = $('#msg');
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    const tipo = form.tipo.value, detalle = form.detalle.value.trim();
-    msg.classList.remove('err');
-    if (!tipo || detalle.length < 10) {
-      msg.classList.add('err');
-      msg.textContent = 'Elige un tipo y describe el hecho con al menos 10 caracteres.';
-      return;
+  /* ---------- Carrusel ---------- */
+  const slides = document.querySelectorAll('.slide');
+  const dotsBox = document.getElementById('dots');
+  const bar = document.getElementById('bar');
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  const DURACION = 6000;
+
+  if (slides.length && dotsBox) {
+    let actual = 0;
+    let timer = null;
+    const dots = [];
+
+    slides.forEach((_, i) => {
+      const d = document.createElement('button');
+      d.setAttribute('aria-label', 'Ir a la diapositiva ' + (i + 1));
+      d.addEventListener('click', () => { ir(i); reiniciar(); });
+      dotsBox.appendChild(d);
+      dots.push(d);
+    });
+
+    function animarBarra() {
+      if (!bar) return;
+      bar.style.transition = 'none';
+      bar.style.width = '0';
+      void bar.offsetWidth;
+      bar.style.transition = 'width ' + DURACION + 'ms linear';
+      bar.style.width = '100%';
     }
-    const code = 'DD-' + Math.random().toString(36).slice(2, 8).toUpperCase();
-    msg.textContent = 'Denuncia enviada. Tu código de seguimiento es ' + code + '.';
-    form.reset();
+
+    function ir(n) {
+      slides[actual].classList.remove('active');
+      dots[actual].classList.remove('active');
+      actual = (n + slides.length) % slides.length;
+      slides[actual].classList.add('active');
+      dots[actual].classList.add('active');
+      animarBarra();
+    }
+
+    function reiniciar() {
+      clearInterval(timer);
+      timer = setInterval(() => ir(actual + 1), DURACION);
+    }
+
+    if (prev) prev.addEventListener('click', () => { ir(actual - 1); reiniciar(); });
+    if (next) next.addEventListener('click', () => { ir(actual + 1); reiniciar(); });
+
+    dots[0].classList.add('active');
+    animarBarra();
+    reiniciar();
+  }
+
+  /* ---------- Pestañas de la comunidad ---------- */
+  const tabs = document.querySelectorAll('.tab');
+  const paneles = document.querySelectorAll('.panel');
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      tabs.forEach((t) => t.classList.remove('active'));
+      paneles.forEach((p) => p.classList.remove('active'));
+      tab.classList.add('active');
+      const destino = document.getElementById(tab.dataset.tab);
+      if (destino) destino.classList.add('active');
+    });
   });
 
-  $('#year').textContent = new Date().getFullYear();
-});
+  /* ---------- Aparición al hacer scroll ---------- */
+  const reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((entradas) => {
+      entradas.forEach((en) => {
+        if (en.isIntersecting) {
+          en.target.classList.add('in');
+          obs.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach((el) => obs.observe(el));
+  } else {
+    reveals.forEach((el) => el.classList.add('in'));
+  }
+
+  // Seguro: si algo falla, a los 3 segundos todo se muestra
+  setTimeout(() => reveals.forEach((el) => el.classList.add('in')), 3000);
+})();

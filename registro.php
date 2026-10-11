@@ -1,13 +1,14 @@
 <?php
 /* =====================================================================
    registro.php  |  Denuncia Digital
-   Todo en un solo archivo: backend (PHP) + HTML + CSS + JS
-   Tabla: usuario (id, nombre, correo, contrasena, direccion, apellido)
+   Backend (PHP) + HTML. Estilos: style_login.css + style_registro.css
+   Tabla: usuario (id, nombre, apellido, correo, contrasena, direccion, rol)
    ===================================================================== */
 
 // ---------- Configuración rápida ----------
-const PAGINA_LOGIN   = 'login.php';   // A dónde ir después de registrarse
-const PAGINA_DESTINO = 'index.html';   // Página principal (si ya hay sesión activa)
+const PAGINA_LOGIN            = 'login.php';           // A dónde ir después de registrarse
+const PAGINA_DESTINO          = 'index.php';           // Página principal (si ya hay sesión activa)
+const PAGINA_ADMIN_REGISTRO   = 'registro_administrador.php';  // Registro del administrador
 
 // ---------- Sesión ----------
 session_set_cookie_params([
@@ -98,6 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $hash = password_hash($password, PASSWORD_DEFAULT);
 
     // 6) Comprobar que el correo no exista e insertar el usuario
+    //    (el rol queda como 'usuario' por el valor por defecto de la columna)
     try {
         if ($db instanceof PDO) {
             $st = $db->prepare('SELECT id FROM usuario WHERE correo = ? LIMIT 1');
@@ -156,6 +158,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link rel="stylesheet" href="style_registro.css">
 </head>
 <body>
+  <a href="<?= PAGINA_ADMIN_REGISTRO ?>" class="admin-link">Administración</a>
+
   <main class="layout">
     <!-- Panel de marca con radar animado -->
     <section class="brand" aria-hidden="true">
