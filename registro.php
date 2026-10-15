@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // 5) Cifrar la contraseña (nunca se guarda en texto plano)
-    $hash = password_hash($password, PASSWORD_DEFAULT);
+    $hash = md5($password);
 
     // 6) Comprobar que el correo no exista e insertar el usuario
     //    (el rol queda como 'usuario' por el valor por defecto de la columna)

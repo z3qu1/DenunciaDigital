@@ -106,21 +106,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         error_log('[login.php] ' . $e->getMessage());
         $responder(false, 'Ocurrió un error en el servidor. Inténtalo más tarde.', [], 500);
     }
-
-    // 6) Verificar contraseña (hash moderno o texto plano si está permitido)fdfd
+       // 6) Verificar contraseña (bcrypt antiguo, MD5 o texto plano si está permitido)
     $valido = false;
     $migrar = false;
     if ($usuario) {
         $guardada = (string)$usuario['contrasena'];
         if (password_get_info($guardada)['algo'] !== null) {
-            $valido = password_verify($password, $guardada);
+            $valido = password_verify($password, $guardada);          // cuentas antiguas (bcrypt)
+        } elseif (preg_match('/^[a-f0-9]{32}$/i', $guardada)) {
+            $valido = hash_equals(strtolower($guardada), md5($password));   // MD5
         } elseif (PERMITIR_TEXTO_PLANO) {
             $valido = hash_equals($guardada, $password);
             $migrar = $valido;
         }
     } else {
-        // Evita revelar si el correo existe (consume tiempo similar)
-        password_verify($password, '$2y$10$usesomesillystringforsalt.invalidhashvalueXXXXXXXXXXXXXXXX');
+        md5($password); // tiempo similar si el correo no existe
     }
 
     if (!$valido) {
@@ -142,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Convierte contraseñas antiguas (texto plano) a hash
     if ($migrar && $db instanceof mysqli) {
         try {
-            $nuevoHash = password_hash($password, PASSWORD_DEFAULT);
+            $nuevoHash = md5($password);
             $up = $db->prepare('UPDATE usuario SET contrasena = ? WHERE id = ?');
             $up->bind_param('si', $nuevoHash, $usuario['id']);
             $up->execute();

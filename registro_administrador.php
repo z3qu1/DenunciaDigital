@@ -46,7 +46,7 @@ if (!$hayAdmin && $_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = 'Ya existe una cuenta con ese correo.';
         } else {
             try {
-                $hash = password_hash($clave, PASSWORD_DEFAULT);
+                $hash = md5($clave);
                 $ins = $conexion->prepare(
                     "INSERT INTO usuario (nombre, apellido, correo, contrasena, direccion, rol)
                      VALUES (?, ?, ?, ?, ?, 'admin')"

@@ -37,23 +37,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $st->execute();
         $admin = $st->get_result()->fetch_assoc();
 
-        $valido = false;
+                $valido = false;
         if ($admin) {
             $guardada = (string)$admin['contrasena'];
             if (password_get_info($guardada)['algo'] !== null) {
                 $valido = password_verify($clave, $guardada);
+            } elseif (preg_match('/^[a-f0-9]{32}$/i', $guardada)) {
+                $valido = hash_equals(strtolower($guardada), md5($clave));
             } else {
-                // Contraseña antigua en texto plano: se acepta y se convierte a hash
+                // Texto plano antiguo: se acepta y se convierte a MD5
                 $valido = hash_equals($guardada, $clave);
                 if ($valido) {
-                    try {
-                        $nuevo = password_hash($clave, PASSWORD_DEFAULT);
-                        $up = $conexion->prepare("UPDATE usuario SET contrasena = ? WHERE id = ?");
-                        $up->bind_param('si', $nuevo, $admin['id']);
-                        $up->execute();
-                    } catch (Throwable $e) {
-                        error_log('[login_admin] ' . $e->getMessage());
-                    }
+                    $nuevo = md5($clave);
+                    $up = $conexion->prepare("UPDATE usuario SET contrasena = ? WHERE id = ?");
+                    $up->bind_param('si', $nuevo, $admin['id']);
+                    $up->execute();
                 }
             }
         } else {
