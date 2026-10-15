@@ -9,7 +9,7 @@ if (!($conexion instanceof mysqli)) {
 }
 
 if (!empty($_SESSION['usuario']['id']) && es_admin()) {
-    header('Location: admin_reportes.php');
+    header('Location: Dashboard_DD/dashboard.html');
     exit;
 }
 
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
         } else {
-            password_verify($clave, '$2y$10$usesomesillystringforsalt.invalidhashvalueXXXXXXXXXXXXXXXX');
+            md5($clave);
         }
 
         if ($valido) {
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'rol'       => 'admin',
             ];
             $_SESSION['csrf'] = bin2hex(random_bytes(32));
-            header('Location: admin_reportes.php');
+            header('Location: Dashboard_DD/dashboard.html');
             exit;
         }
 
