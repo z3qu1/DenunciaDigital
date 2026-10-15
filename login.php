@@ -107,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $responder(false, 'Ocurrió un error en el servidor. Inténtalo más tarde.', [], 500);
     }
 
-    // 6) Verificar contraseña (hash moderno o texto plano si está permitido)
+    // 6) Verificar contraseña (hash moderno o texto plano si está permitido)fdfd
     $valido = false;
     $migrar = false;
     if ($usuario) {
