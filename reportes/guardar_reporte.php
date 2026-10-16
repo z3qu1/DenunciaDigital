@@ -1,6 +1,6 @@
 <?php
-require __DIR__ . '/incluides/autenticacion.php';
-require __DIR__ . '/incluides/conexion.php';   // debe definir $conexion (mysqli)
+require __DIR__ . '/../incluides/autenticacion.php';
+require __DIR__ . '/../incluides/conexion.php';   // debe definir $conexion (mysqli)
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -81,7 +81,7 @@ if (!empty($_FILES['evidencias']['name'][0])) {
         [$ext, $categoria] = $permitidos[$mime];
         $nuevoNombre = bin2hex(random_bytes(16)) . '.' . $ext;
 
-        if (move_uploaded_file($tmp, __DIR__ . '/uploads/' . $nuevoNombre)) {
+        if (move_uploaded_file($tmp, __DIR__ . '/../uploads/' . $nuevoNombre)) {
             $ins = $conexion->prepare("INSERT INTO evidencias (reporte_id, archivo, tipo) VALUES (?, ?, ?)");
             $ins->bind_param('iss', $reporteId, $nuevoNombre, $categoria);
             $ins->execute();

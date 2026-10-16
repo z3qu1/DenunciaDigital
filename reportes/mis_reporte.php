@@ -1,6 +1,6 @@
 <?php
-require __DIR__ . '/incluides/autenticacion.php';
-require __DIR__ . '/incluides/conexion.php';
+require __DIR__ . '/../incluides/autenticacion.php';
+require __DIR__ . '/../incluides/conexion.php';
 requerir_login();
 
 // Detecta la variable de conexión (funciona con $conexion o $conn)
@@ -27,15 +27,15 @@ $resStmt = $conn->prepare("SELECT mensaje, fecha FROM respuestas WHERE reporte_i
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mis denuncias · Denuncia Digital</title>
-  <link rel="stylesheet" href="style_admin.css">
-  <link rel="stylesheet" href="style_logout.css">
+  <link rel="stylesheet" href="../assets_css/style_admin.css">
+  <link rel="stylesheet" href="../assets_css/style_logout.css">
 </head>
 <body>
   <main class="panel">
     <nav class="navegacion">
-      <a href="index.php">Inicio</a>
+      <a href="../index.php">Inicio</a>
       <a href="reporte.php">Nueva denuncia</a>
-      <a href="mis_reportes.php" class="activo">Mis denuncias</a>
+      <a href="mis_reporte.php" class="activo">Mis denuncias</a>
       <a href="logout.php" class="salir">Cerrar sesión</a>
     </nav>
 
@@ -70,6 +70,6 @@ $resStmt = $conn->prepare("SELECT mensaje, fecha FROM respuestas WHERE reporte_i
       </article>
     <?php endwhile; ?>
   </main>
-  <script src="script_logout.js"></script>
+  <script src="../assets_js/script_logout.js"></script>
 </body>
 </html>

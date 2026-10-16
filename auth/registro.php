@@ -7,7 +7,7 @@
 
 // ---------- Configuración rápida ----------
 const PAGINA_LOGIN            = 'login.php';           // A dónde ir después de registrarse
-const PAGINA_DESTINO          = 'index.php';           // Página principal (si ya hay sesión activa)
+const PAGINA_DESTINO          = '../index.php';           // Página principal (si ya hay sesión activa)
 const PAGINA_ADMIN_REGISTRO   = 'registro_administrador.php';  // Registro del administrador
 
 // ---------- Sesión ----------
@@ -154,8 +154,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style_login.css">
-  <link rel="stylesheet" href="style_registro.css">
+  <link rel="stylesheet" href="../assets_css/style_login.css">
+  <link rel="stylesheet" href="../assets_css/style_registro.css">
 </head>
 <body>
   <a href="<?= PAGINA_ADMIN_REGISTRO ?>" class="admin-link">Administración</a>
@@ -245,6 +245,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <div class="toasts" id="toasts" role="region" aria-live="polite" aria-label="Notificaciones"></div>
 
-  <script src="script_registro.js"></script>
+  <script src="../assets_js/script_registro.js"></script>
 </body>
 </html>

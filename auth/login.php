@@ -1,13 +1,13 @@
 <?php
 
-const PAGINA_DESTINO       = 'index.php';
+const PAGINA_DESTINO       = '../index.php';
 const PAGINA_REGISTRO      = 'registro.php';
 const PAGINA_RECUPERAR     = 'recuperar.php';
 const MAX_INTENTOS         = 5;
 const SEGUNDOS_BLOQUEO     = 60;
 const DIAS_RECORDAR        = 30;
 const PERMITIR_TEXTO_PLANO = false;
-const PAGINA_ADMIN         = 'admin_reportes.php';
+const PAGINA_ADMIN         = '../admin_reportes.php';
 
 session_set_cookie_params([
     'lifetime' => 0,
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 4) Conexión a la base de datos (./conexion.php)
     //    ob_start descarta cualquier "echo" que tenga conexion.php
     ob_start();
-    require_once __DIR__ . '/incluides/conexion.php';
+    require_once __DIR__ . '/../incluides/conexion.php';
     ob_end_clean();
 
     // Detecta el nombre de la variable de conexión más común
@@ -681,7 +681,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (data.ok) {
           toast(data.mensaje || 'Sesión iniciada.', 'success', 2500);
           btn.classList.add('loading');
-          setTimeout(() => { window.location.href = data.redirigir || 'index.php'; }, 800);
+          setTimeout(() => { window.location.href = data.redirigir || '../index.php'; }, 800);
           return;
         }
 

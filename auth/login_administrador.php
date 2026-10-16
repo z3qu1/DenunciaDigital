@@ -1,6 +1,6 @@
 <?php
-require __DIR__ . '/incluides/autenticacion.php';
-require __DIR__ . '/incluides/conexion.php';
+require __DIR__ . '/../incluides/autenticacion.php';
+require __DIR__ . '/../incluides/conexion.php';
 $conexion = $conexion ?? $conn ?? null;
 
 if (!($conexion instanceof mysqli)) {
@@ -9,7 +9,7 @@ if (!($conexion instanceof mysqli)) {
 }
 
 if (!empty($_SESSION['usuario']['id']) && es_admin()) {
-    header('Location: Dashboard_DD/dashboard.html');
+    header('Location: dashboard/dashboard.html');
     exit;
 }
 
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'rol'       => 'admin',
             ];
             $_SESSION['csrf'] = bin2hex(random_bytes(32));
-            header('Location: Dashboard_DD/dashboard.html');
+            header('Location: ../dashboard/dashboard.html');
             exit;
         }
 
@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Acceso de administración · Denuncia Digital</title>
-  <link rel="stylesheet" href="style_acceso_administrador.css">
+  <link rel="stylesheet" href="../assets_css/style_acceso_administrador.css">
 </head>
 <body>
   <a class="esquina" href="login.php">← Acceso de usuarios</a>

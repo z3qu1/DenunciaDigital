@@ -28,7 +28,7 @@ $tipos = [
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="style_logout.css">
+<link rel="stylesheet" href="assets_css/style_logout.css">
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -48,14 +48,14 @@ $tipos = [
     <?php if ($admin): ?>
       <a href="admin_reportes.php">Reportes</a>
       <a href="admin_usuarios.php">Usuarios</a>
-      <a href="logout.php" class="nav-salir">Salir</a>
+      <a href="auth/logout.php" class="nav-salir">Salir</a>
     <?php elseif ($logueado): ?>
-      <a href="mis_reportes.php">Mis denuncias</a>
-      <a href="reporte.php" class="btn btn-sm">Denunciar</a>
-      <a href="logout.php" class="nav-salir">Salir</a>
+      <a href="reportes/mis_reporte.php">Mis denuncias</a>
+      <a href="reportes/reporte.php" class="btn btn-sm">Denunciar</a>
+      <a href="auth/logout.php" class="nav-salir">Salir</a>
     <?php else: ?>
-      <a href="login.php">Iniciar sesión</a>
-      <a href="registro.php" class="btn btn-sm">Registrarse</a>
+      <a href="auth/login.php">Iniciar sesión</a>
+      <a href="auth/registro.php" class="btn btn-sm">Registrarse</a>
     <?php endif; ?>
   </nav>
 </header>
@@ -75,7 +75,7 @@ $tipos = [
         <?php endif; ?>
         <p>Denuncia desde tu celular, sin filas y sin miedo. Tu reporte llega directo a la directiva de la zona.</p>
         <?php if ($admin): ?>
-          <a href="Dashboard_DD/dashboard.html" class="btn">Ir al panel de control</a>
+          <a href="dashboard/dashboard.html" class="btn">Ir al panel de control</a>
         <?php else: ?>
           <a href="<?= $destinoDenuncia ?>" class="btn">Hacer una denuncia</a>
         <?php endif; ?>
@@ -173,16 +173,16 @@ $tipos = [
   <div class="cta reveal">
     <?php if ($admin): ?>
       <p>Estás como administrador. Revisa y responde las denuncias de los vecinos.</p>
-      <a href="Dashboard_DD/dashboard.html" class="btn">Panel de control</a>
+      <a href="dashboard/dashboard.html" class="btn">Panel de control</a>
       <a href="admin_usuarios.php" class="btn btn-sec">Gestionar usuarios</a>
     <?php elseif ($logueado): ?>
       <p>Cuéntanos qué ocurre en tu zona, <?= e($nombre) ?>.</p>
-      <a href="reporte.php" class="btn">Nueva denuncia</a>
-      <a href="mis_reportes.php" class="btn btn-sec">Ver mis denuncias</a>
+      <a href="reportes/reporte.php" class="btn">Nueva denuncia</a>
+      <a href="reportes/mis_reporte.php" class="btn btn-sec">Ver mis denuncias</a>
     <?php else: ?>
       <p>Para enviar una denuncia y seguir su estado, inicia sesión o crea tu cuenta.</p>
-      <a href="login.php" class="btn">Iniciar sesión</a>
-      <a href="registro.php" class="btn btn-sec">Registrarme</a>
+      <a href="auth/login.php" class="btn">Iniciar sesión</a>
+      <a href="auth/registro.php" class="btn btn-sec">Registrarme</a>
     <?php endif; ?>
   </div>
 </section>
@@ -214,7 +214,7 @@ $tipos = [
 <button class="top" id="top" aria-label="Volver arriba">↑</button>
 
 <script src="script.js"></script>
-<script src="script_logout.js"></script>
+<script src="assets_js/script_logout.js"></script>
 <script>
 /* Respaldo: garantiza que las secciones aparezcan aunque script.js falle */
 (function () {

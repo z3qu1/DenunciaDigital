@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/incluides/autenticacion.php';
+require __DIR__ . '/../incluides/autenticacion.php';
 requerir_login();
 
 $tipoElegido = $_GET['tipo'] ?? '';
@@ -19,7 +19,7 @@ $nombreCompleto = $_SESSION['usuario']['nombre'] . ' ' . $_SESSION['usuario']['a
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Nueva denuncia · Denuncia Digital</title>
-  <link rel="stylesheet" href="style_reporte.css">
+  <link rel="stylesheet" href="../assets_css/style_reporte.css">
 </head>
 <body>
   <main class="contenedor">
@@ -56,11 +56,11 @@ $nombreCompleto = $_SESSION['usuario']['nombre'] . ' ' . $_SESSION['usuario']['a
     </form>
 
     <div class="enlaces">
-      <a href="index.php" class="volver">← Volver al inicio</a>
-      <a href="mis_reportes.php" class="volver">Mis denuncias</a>
+      <a href="../index.php" class="volver">Volver al inicio</a>
+      <a href="mis_reporte.php" class="volver">Mis denuncias</a>
     </div>
   </main>
 
-  <script src="script_reporte.js"></script>
+  <script src="../assets_js/script_reporte.js"></script>
 </body>
 </html>

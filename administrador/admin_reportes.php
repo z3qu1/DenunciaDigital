@@ -1,6 +1,6 @@
 <?php
-require __DIR__ . '/incluides/autenticacion.php';
-require __DIR__ . '/incluides/conexion.php';
+require __DIR__ . '/../incluides/autenticacion.php';
+require __DIR__ . '/../incluides/conexion.php';
 requerir_admin();
 
 $estadosValidos = ['pendiente', 'en proceso', 'resuelto'];
@@ -37,16 +37,16 @@ $resStmt  = $conexion->prepare("SELECT mensaje, fecha FROM respuestas WHERE repo
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Panel de reportes · Denuncia Digital</title>
-  <link rel="stylesheet" href="style_admin.css">
-  <link rel="stylesheet" href="style_logout.css">
+  <link rel="stylesheet" href="../assets_css/style_admin.css">
+  <link rel="stylesheet" href="../assets_css/style_logout.css">
 </head>
 <body>
   <main class="panel">
     <nav class="navegacion">
       <a href="admin_reportes.php" class="activo">Reportes</a>
       <a href="admin_usuarios.php">Usuarios</a>
-      <a href="Dashboard_DD/dashboard.html">Panel de control</a>
-      <a href="logout.php" class="salir">Cerrar sesión</a>
+      <a href="../dashboard/dashboard.html">Panel de control</a>
+      <a href="../auth/logout.php" class="salir">Cerrar sesión</a>
     </nav>
 
     <h1>Reportes recibidos</h1>
@@ -111,6 +111,6 @@ $resStmt  = $conexion->prepare("SELECT mensaje, fecha FROM respuestas WHERE repo
       </article>
     <?php endwhile; ?>
   </main>
-  <script src="script_logout.js"></script>
+  <script src="../assets_js/script_logout.js"></script>
 </body>
 </html>

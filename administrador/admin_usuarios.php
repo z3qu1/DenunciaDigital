@@ -1,6 +1,6 @@
 <?php
-require __DIR__ . '/incluides/autenticacion.php';
-require __DIR__ . '/incluides/conexion.php';
+require __DIR__ . '/../incluides/autenticacion.php';
+require __DIR__ . '/../incluides/conexion.php';
 requerir_admin();
 
 $miId = (int)$_SESSION['usuario']['id'];
@@ -67,16 +67,16 @@ $usuarios = $conexion->query("SELECT id, nombre, apellido, correo, rol FROM usua
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Usuarios · Denuncia Digital</title>
-  <link rel="stylesheet" href="style_admin.css">
-  <link rel="stylesheet" href="style_logout.css">
+  <link rel="stylesheet" href="../assets_css/style_admin.css">
+  <link rel="stylesheet" href="../assets_css/style_logout.css">
 </head>
 <body>
   <main class="panel">
     <nav class="navegacion">
       <a href="admin_reportes.php">Reportes</a>
       <a href="admin_usuarios.php" class="activo">Usuarios</a>
-      <a href="Dashboard_DD/dashboard.html">Panel de control</a>
-      <a href="logout.php" class="salir">Cerrar sesión</a>
+      <a href="../dashboard/dashboard.html">Panel de control</a>
+      <a href="../auth/logout.php" class="salir">Cerrar sesión</a>
     </nav>
 
     <h1>Gestión de usuarios</h1>
@@ -134,6 +134,6 @@ $usuarios = $conexion->query("SELECT id, nombre, apellido, correo, rol FROM usua
       </div>
     </section>
   </main>
-  <script src="script_logout.js"></script>
+  <script src="../assets_js/script_logout.js"></script>
 </body>
 </html>
