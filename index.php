@@ -1,5 +1,5 @@
 <?php
-require 'autenticacion.php';
+require __DIR__ . '/incluides/autenticacion.php';
 
 $logueado = !empty($_SESSION['usuario']['id']);
 $admin    = $logueado && es_admin();

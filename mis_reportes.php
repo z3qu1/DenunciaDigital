@@ -1,6 +1,6 @@
 <?php
-require 'autenticacion.php';
-require 'conexion.php';
+require __DIR__ . '/incluides/autenticacion.php';
+require __DIR__ . '/incluides/conexion.php';
 requerir_login();
 
 // Detecta la variable de conexión (funciona con $conexion o $conn)

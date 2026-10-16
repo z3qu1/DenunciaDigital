@@ -1,7 +1,7 @@
 <?php
-require 'autenticacion.php';
-require 'conexion.php';
-require 'configuracion_administrador.php';
+require __DIR__ . '/incluides/autenticacion.php';
+require __DIR__ . '/incluides/conexion.php';
+require '/configuracion_administrador.php';
 $conexion = $conexion ?? $conn ?? null;
 
 if (!($conexion instanceof mysqli)) {

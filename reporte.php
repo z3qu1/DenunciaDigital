@@ -1,5 +1,5 @@
 <?php
-require 'autenticacion.php';
+require __DIR__ . '/incluides/autenticacion.php';
 requerir_login();
 
 $tipoElegido = $_GET['tipo'] ?? '';

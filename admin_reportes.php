@@ -1,6 +1,6 @@
 <?php
-require 'autenticacion.php';
-require 'conexion.php';
+require __DIR__ . '/incluides/autenticacion.php';
+require __DIR__ . '/incluides/conexion.php';
 requerir_admin();
 
 $estadosValidos = ['pendiente', 'en proceso', 'resuelto'];

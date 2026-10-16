@@ -1,6 +1,6 @@
 <?php
-require 'autenticacion.php';
-require 'conexion.php';   // debe definir $conexion (mysqli)
+require __DIR__ . '/incluides/autenticacion.php';
+require __DIR__ . '/incluides/conexion.php';   // debe definir $conexion (mysqli)
 
 header('Content-Type: application/json; charset=utf-8');
 

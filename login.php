@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 4) Conexión a la base de datos (./conexion.php)
     //    ob_start descarta cualquier "echo" que tenga conexion.php
     ob_start();
-    require_once __DIR__ . '/conexion.php';
+    require_once __DIR__ . '/incluides/conexion.php';
     ob_end_clean();
 
     // Detecta el nombre de la variable de conexión más común

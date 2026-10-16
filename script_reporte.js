@@ -17,12 +17,23 @@ form.addEventListener('submit', async (e) => {
   btn.disabled = true;
   btn.textContent = 'Enviando...';
 
-  try {
+    try {
     const respuesta = await fetch('guardar_reporte.php', {
       method: 'POST',
-      body: new FormData(form)
+      body: new FormData(form),
+      credentials: 'same-origin'
     });
-    const datos = await respuesta.json();
+
+    const texto = await respuesta.text();
+    let datos;
+    try {
+      datos = JSON.parse(texto);
+    } catch (_) {
+      console.error('Respuesta del servidor (no es JSON):', texto);
+      mensaje.textContent = 'El servidor devolvió una respuesta inesperada. Mira F12 → Consola.';
+      mensaje.className = 'error';
+      return;
+    }
 
     mensaje.textContent = datos.mensaje;
     mensaje.className = datos.ok ? 'ok' : 'error';
