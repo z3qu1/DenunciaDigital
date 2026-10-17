@@ -45,7 +45,7 @@ $resStmt  = $conexion->prepare("SELECT mensaje, fecha FROM respuestas WHERE repo
     <nav class="navegacion">
       <a href="admin_reportes.php" class="activo">Reportes</a>
       <a href="admin_usuarios.php">Usuarios</a>
-      <a href="../dashboard/dashboard.html">Panel de control</a>
+      <a href="dashboard/dashboard.html">Panel de control</a>
       <a href="../auth/logout.php" class="salir">Cerrar sesión</a>
     </nav>
 
