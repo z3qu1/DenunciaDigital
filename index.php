@@ -75,7 +75,7 @@ $tipos = [
         <?php endif; ?>
         <p>Denuncia desde tu celular, sin filas y sin miedo. Tu reporte llega directo a la directiva de la zona.</p>
         <?php if ($admin): ?>
-          <a href="dashboard/dashboard.html" class="btn">Ir al panel de control</a>
+          <a href="administrador/dashboard/dashboard.html" class="btn">Ir al panel de control</a>
         <?php else: ?>
           <a href="<?= $destinoDenuncia ?>" class="btn">Hacer una denuncia</a>
         <?php endif; ?>
@@ -173,8 +173,8 @@ $tipos = [
   <div class="cta reveal">
     <?php if ($admin): ?>
       <p>Estás como administrador. Revisa y responde las denuncias de los vecinos.</p>
-      <a href="dashboard/dashboard.html" class="btn">Panel de control</a>
-      <a href="admin_usuarios.php" class="btn btn-sec">Gestionar usuarios</a>
+      <a href="administrador/dashboard/dashboard.html" class="btn">Panel de control</a>
+      <a href="administrador/admin_usuarios.php" class="btn btn-sec">Gestionar usuarios</a>
     <?php elseif ($logueado): ?>
       <p>Cuéntanos qué ocurre en tu zona, <?= e($nombre) ?>.</p>
       <a href="reportes/reporte.php" class="btn">Nueva denuncia</a>
