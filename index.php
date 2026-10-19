@@ -46,8 +46,8 @@ $tipos = [
     <a href="#comunidad">Comunidad</a>
 
     <?php if ($admin): ?>
-      <a href=".php">Reportes</a>
-      <a href="admin_usuarios.php">Usuarios</a>
+      <a href="administrador/admin_reportes.php">Reportes</a>
+      <a href="administrador/admin_usuarios.php">Usuarios</a>
       <a href="auth/logout.php" class="nav-salir">Salir</a>
     <?php elseif ($logueado): ?>
       <a href="reportes/mis_reporte.php">Mis denuncias</a>
