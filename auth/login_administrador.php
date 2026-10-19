@@ -9,7 +9,7 @@ if (!($conexion instanceof mysqli)) {
 }
 
 if (!empty($_SESSION['usuario']['id']) && es_admin()) {
-    header('Location: dashboard/dashboard.phps');
+    header('Location: ../administrador/dashboard/dashboard.phps');
     exit;
 }
 
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'rol'       => 'admin',
             ];
             $_SESSION['csrf'] = bin2hex(random_bytes(32));
-            header('Location: ../dashboard/dashboard.php');
+            header('Location: ../administrador/dashboard/dashboard.php');
             exit;
         }
 
