@@ -6,7 +6,7 @@ $admin    = $logueado && es_admin();
 $nombre   = $logueado ? $_SESSION['usuario']['nombre'] : '';
 
 // A dónde lleva cada botón de "denunciar" según quién eres
-$destinoDenuncia = $logueado ? 'reporte.php' : 'login.php';
+$destinoDenuncia = $logueado ? 'reportes/reporte.php' : 'login.php';
 
 $tipos = [
   ['seguridad',         '🚨', 'Seguridad',         'Robos, asaltos y personas sospechosas.'],
@@ -46,7 +46,7 @@ $tipos = [
     <a href="#comunidad">Comunidad</a>
 
     <?php if ($admin): ?>
-      <a href="admin_reportes.php">Reportes</a>
+      <a href=".php">Reportes</a>
       <a href="admin_usuarios.php">Usuarios</a>
       <a href="auth/logout.php" class="nav-salir">Salir</a>
     <?php elseif ($logueado): ?>
@@ -73,9 +73,9 @@ $tipos = [
         <?php else: ?>
           <h1>Tu voz protege a El Kenko</h1>
         <?php endif; ?>
-        <p>Denuncia desde tu celular, sin filas y sin miedo. Tu reporte llega directo a la directiva de la zona.</p>
+        <p>Denuncia desde tu celadmin_reportesular, sin filas y sin miedo. Tu reporte llega directo a la directiva de la zona.</p>
         <?php if ($admin): ?>
-          <a href="administrador/dashboard/dashboard.html" class="btn">Ir al panel de control</a>
+          <a href="administrador/dashboard/dashboard.php" class="btn">Ir al panel de control</a>
         <?php else: ?>
           <a href="<?= $destinoDenuncia ?>" class="btn">Hacer una denuncia</a>
         <?php endif; ?>
@@ -123,7 +123,7 @@ $tipos = [
     <?php foreach ($tipos as [$valor, $icono, $titulo, $texto]): ?>
       <?php
         if ($admin)         { $href = '#'; }
-        elseif ($logueado)  { $href = 'reporte.php?tipo=' . $valor; }
+        elseif ($logueado)  { $href = 'reportes/reporte.php?tipo=' . $valor; }
         else                { $href = 'login.php'; }
       ?>
       <a class="card reveal" href="<?= e($href) ?>">
@@ -173,7 +173,7 @@ $tipos = [
   <div class="cta reveal">
     <?php if ($admin): ?>
       <p>Estás como administrador. Revisa y responde las denuncias de los vecinos.</p>
-      <a href="administrador/dashboard/dashboard.html" class="btn">Panel de control</a>
+      <a href="administrador/dashboard/dashboard.php" class="btn">Panel de control</a>
       <a href="administrador/admin_usuarios.php" class="btn btn-sec">Gestionar usuarios</a>
     <?php elseif ($logueado): ?>
       <p>Cuéntanos qué ocurre en tu zona, <?= e($nombre) ?>.</p>

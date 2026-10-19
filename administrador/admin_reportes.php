@@ -42,10 +42,9 @@ $resStmt  = $conexion->prepare("SELECT mensaje, fecha FROM respuestas WHERE repo
 </head>
 <body>
   <main class="panel">
-    <nav class="navegacion">
       <a href="admin_reportes.php" class="activo">Reportes</a>
       <a href="admin_usuarios.php">Usuarios</a>
-      <a href="dashboard/dashboard.html">Panel de control</a>
+      <a href="dashboard/dashboard.php">Panel de control</a>
       <a href="../auth/logout.php" class="salir">Cerrar sesión</a>
     </nav>
 
@@ -111,6 +110,8 @@ $resStmt  = $conexion->prepare("SELECT mensaje, fecha FROM respuestas WHERE repo
       </article>
     <?php endwhile; ?>
   </main>
-  <script src="../assets_js/script_logout.js"></script>
+  <script src="/PROYECTO_PAGE/assets_js/script_logout.js"></script>
+<script src="/PROYECTO_PAGE/assets_js/script_admin.js"></script>
+
 </body>
 </html>

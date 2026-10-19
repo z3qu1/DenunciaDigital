@@ -72,10 +72,9 @@ $usuarios = $conexion->query("SELECT id, nombre, apellido, correo, rol FROM usua
 </head>
 <body>
   <main class="panel">
-    <nav class="navegacion">
       <a href="admin_reportes.php">Reportes</a>
       <a href="admin_usuarios.php" class="activo">Usuarios</a>
-      <a href="dashboard/dashboard.html">Panel de control</a>
+      <a href="dashboard/dashboard.php">Panel de control</a>
       <a href="../auth/logout.php" class="salir">Cerrar sesión</a>
     </nav>
 
