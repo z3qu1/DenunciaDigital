@@ -71,12 +71,13 @@ $usuarios = $conexion->query("SELECT id, nombre, apellido, correo, rol FROM usua
   <link rel="stylesheet" href="../assets_css/style_logout.css">
 </head>
 <body>
-  <main class="panel">
-      <a href="admin_reportes.php">Reportes</a>
-      <a href="admin_usuarios.php" class="activo">Usuarios</a>
-      <a href="dashboard/dashboard.php">Panel de control</a>
-      <a href="../auth/logout.php" class="salir">Cerrar sesión</a>
-    </nav>
+  <main>
+  <nav class="navegacion">
+  <a href="admin_reportes.php">Reportes</a>
+  <a href="admin_usuarios.php" class="activo">Usuarios</a>
+  <a href="dashboard/dashboard.php">Panel de control</a>
+  <a href="/PROYECTO_PAGE/auth/logout.php" class="salir">Cerrar sesión</a>
+</nav>
 
     <h1>Gestión de usuarios</h1>
 

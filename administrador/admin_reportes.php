@@ -41,12 +41,13 @@ $resStmt  = $conexion->prepare("SELECT mensaje, fecha FROM respuestas WHERE repo
   <link rel="stylesheet" href="../assets_css/style_logout.css">
 </head>
 <body>
-  <main class="panel">
-      <a href="admin_reportes.php" class="activo">Reportes</a>
-      <a href="admin_usuarios.php">Usuarios</a>
-      <a href="dashboard/dashboard.php">Panel de control</a>
-      <a href="../auth/logout.php" class="salir">Cerrar sesión</a>
-    </nav>
+  <main>
+  <nav class="navegacion">
+  <a href="admin_reportes.php" class="activo">Reportes</a>
+  <a href="admin_usuarios.php">Usuarios</a>
+  <a href="dashboard/dashboard.php">Panel de control</a>
+  <a href="/PROYECTO_PAGE/auth/logout.php" class="salir">Cerrar sesión</a>
+</nav>
 
     <h1>Reportes recibidos</h1>
 

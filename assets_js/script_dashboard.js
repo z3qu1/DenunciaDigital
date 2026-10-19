@@ -46,7 +46,8 @@
     const saludo = $('#saludo');
     if (saludo) {
       const h = new Date().getHours();
-      saludo.textContent = (h < 12 ? 'Buenos días' : h < 19 ? 'Buenas tardes' : 'Buenas noches') + ', Administrador 👋';
+      const nombre = saludo.dataset.nombre || 'Administrador';
+      saludo.textContent = (h < 12 ? 'Buenos días' : h < 19 ? 'Buenas tardes' : 'Buenas noches') + ', ' + nombre + ' 👋';
     }
     const anio = $('#anio');
     if (anio) anio.textContent = new Date().getFullYear();

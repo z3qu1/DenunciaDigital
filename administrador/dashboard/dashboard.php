@@ -228,7 +228,7 @@ requerir_admin();
 
         <section class="hello anim" style="--i:0" id="resumen">
           <div>
-            <h2 id="saludo">Bienvenido</h2>
+            <h2 id="saludo" data-nombre="<?= e($_SESSION['usuario']['nombre']) ?>">Bienvenido</h2>
             <p>Este es el resumen de las denuncias de tu comunidad.</p>
           </div>
           <a href="<?= LINK_REPORTES ?>" class="btn">Gestionar denuncias</a>
@@ -306,7 +306,7 @@ requerir_admin();
         <section class="panel anim" style="--i:9" id="recientes">
           <header class="panel-head">
             <h3>Últimas denuncias</h3>
-            <a href="<?= LINK_REPORTES ?>" class="link">Ver todas →</a>
+            <a href="<?= LINK_REPORTES ?>" class="link">Ver todas</a>
           </header>
           <div class="table-scroll">
             <table>

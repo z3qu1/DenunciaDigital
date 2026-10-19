@@ -60,6 +60,14 @@ $nombreCompleto = $_SESSION['usuario']['nombre'] . ' ' . $_SESSION['usuario']['a
       <a href="mis_reporte.php" class="volver">Mis denuncias</a>
     </div>
   </main>
+  <div class="resultado-fondo" id="resultado" hidden>
+  <div class="resultado-caja" role="alertdialog" aria-modal="true" aria-labelledby="resTitulo">
+    <div class="resultado-icono" id="resIcono"></div>
+    <h2 id="resTitulo"></h2>
+    <p id="resTexto"></p>
+    <button type="button" id="resCerrar">Aceptar</button>
+  </div>
+</div>
 
   <script src="../assets_js/script_reporte.js"></script>
 </body>
