@@ -29,6 +29,7 @@ $resStmt = $conn->prepare("SELECT mensaje, fecha FROM respuestas WHERE reporte_i
   <title>Mis denuncias · Denuncia Digital</title>
   <link rel="stylesheet" href="../assets_css/style_admin.css">
   <link rel="stylesheet" href="../assets_css/style_logout.css">
+  <link rel="stylesheet" href="../assets_css/style_notificaciones.css">
 </head>
 <body>
   <main class="panel">
@@ -36,6 +37,7 @@ $resStmt = $conn->prepare("SELECT mensaje, fecha FROM respuestas WHERE reporte_i
       <a href="../index.php">Inicio</a>
       <a href="reporte.php">Nueva denuncia</a>
       <a href="mis_reporte.php" class="activo">Mis denuncias</a>
+      <span id="campana"></span>
       <a href="logout.php" class="salir">Cerrar sesión</a>
     </nav>
 
@@ -71,5 +73,6 @@ $resStmt = $conn->prepare("SELECT mensaje, fecha FROM respuestas WHERE reporte_i
     <?php endwhile; ?>
   </main>
   <script src="../assets_js/script_logout.js"></script>
+  <script src="../assets_js/script_notificaciones.js"></script>
 </body>
 </html>

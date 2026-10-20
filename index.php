@@ -29,6 +29,7 @@ $tipos = [
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="assets_css/style_logout.css">
+<link rel="stylesheet" href="assets_css/style_notificaciones.css">
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -51,6 +52,7 @@ $tipos = [
       <a href="auth/logout.php" class="nav-salir">Salir</a>
     <?php elseif ($logueado): ?>
       <a href="reportes/mis_reporte.php">Mis denuncias</a>
+      <span id="campana"></span>
       <a href="reportes/reporte.php" class="btn btn-sm">Denunciar</a>
       <a href="auth/logout.php" class="nav-salir">Salir</a>
     <?php else: ?>
@@ -177,6 +179,7 @@ $tipos = [
       <a href="administrador/admin_usuarios.php" class="btn btn-sec">Gestionar usuarios</a>
     <?php elseif ($logueado): ?>
       <p>Cuéntanos qué ocurre en tu zona, <?= e($nombre) ?>.</p>
+
       <a href="reportes/reporte.php" class="btn">Nueva denuncia</a>
       <a href="reportes/mis_reporte.php" class="btn btn-sec">Ver mis denuncias</a>
     <?php else: ?>
@@ -215,6 +218,7 @@ $tipos = [
 
 <script src="script.js"></script>
 <script src="assets_js/script_logout.js"></script>
+<script src="assets_js/script_notificaciones.js"></script>
 <script>
 /* Respaldo: garantiza que las secciones aparezcan aunque script.js falle */
 (function () {
