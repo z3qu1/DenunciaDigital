@@ -235,33 +235,21 @@ requerir_admin();
         </section>
 
         <section class="kpis">
-          <article class="kpi anim" style="--i:1">
-            <div class="kpi-ico"><svg viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/></svg></div>
-            <p>Total de denuncias</p>
-            <strong id="kTotal">0</strong>
-            <span class="trend up" id="kHoy">Hoy: 0</span>
-          </article>
+          <a class="kpi anim" style="--i:1" href="<?= LINK_REPORTES ?>?simple=1">
+          Total de denuncias
+          </a>
 
-          <article class="kpi anim" style="--i:2">
-            <div class="kpi-ico warn"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
-            <p>Pendientes</p>
-            <strong id="kPend">0</strong>
-            <span class="trend down">Requieren atención</span>
-          </article>
+          <a class="kpi anim" style="--i:2" href="<?= LINK_REPORTES ?>?simple=1&estado=pendiente">
+          Pendientes
+          </a>
 
-          <article class="kpi anim" style="--i:3">
-            <div class="kpi-ico ok"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16 9.8"/></svg></div>
-            <p>Resueltas</p>
-            <strong id="kRes">0</strong>
-            <span class="trend up" id="kPct">0% del total</span>
-          </article>
+          <a class="kpi anim" style="--i:3" href="<?= LINK_REPORTES ?>?simple=1&estado=resuelto">
+          Resueltas
+          </a>
 
-          <article class="kpi anim" style="--i:4">
-            <div class="kpi-ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.5 3.2-5.5 6.5-5.5s5.9 2 6.5 5.5"/></svg></div>
-            <p>Usuarios registrados</p>
-            <strong id="kUsu">0</strong>
-            <span class="trend up">Cuentas de ciudadanos</span>
-          </article>
+          <a class="kpi anim" style="--i:4" href="<?= LINK_USUARIOS ?>">
+          Usuarios
+          </a>
         </section>
 
         <section class="grid-2" id="estadisticas">

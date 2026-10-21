@@ -394,3 +394,12 @@ tbody tr.row-in { animation: fadeUp .5s both; }
 }
 .vivo { display: block; margin-top: 2px; font-size: .7rem; color: var(--ok); }
 .vivo.off { color: var(--err); }
+a.kpi { display: block; color: inherit; text-decoration: none; cursor: pointer; }
+a.kpi::before {
+  content: "Ver detalle →"; position: absolute; right: 18px; bottom: 16px;
+  font-size: .72rem; font-weight: 600; color: var(--sky);
+  opacity: 0; transform: translateX(-6px);
+  transition: opacity .25s, transform .25s;
+}
+a.kpi:hover::before { opacity: 1; transform: none; }
+a.kpi:focus-visible { outline: 3px solid var(--sky-2); outline-offset: 3px; }

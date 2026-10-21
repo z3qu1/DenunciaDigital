@@ -1,6 +1,6 @@
 (() => {
   const URL = '/PROYECTO_PAGE/reportes/notificaciones.php';
-  const URL_MIS = '/PROYECTO_PAGE/reportes/mis_reportes.php';
+  const URL_MIS = '/PROYECTO_PAGE/reportes/mis_reporte.php';
   const INTERVALO = 15000;
 
   const cont = document.getElementById('campana');

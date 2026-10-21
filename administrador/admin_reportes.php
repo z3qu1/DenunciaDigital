@@ -55,6 +55,14 @@ $periodo = in_array($_GET['periodo'] ?? '', ['hoy', 'semana', 'mes'], true) ? $_
 $fEstado = in_array($_GET['estado'] ?? '', $estadosValidos, true) ? $_GET['estado'] : '';
 $busca   = trim($_GET['q'] ?? '');
 
+$titulos = [
+    ''           => 'Reportes recibidos',
+    'pendiente'  => 'Denuncias pendientes',
+    'en proceso' => 'Denuncias en proceso',
+    'resuelto'   => 'Denuncias resueltas',
+];
+$tituloPagina = $titulos[$fEstado] ?? 'Reportes recibidos';
+
 $where = []; $tipos = ''; $params = [];
 
 if ($periodo === 'hoy')    $where[] = "fecha >= CURDATE()";
@@ -69,27 +77,39 @@ if ($params) $st->bind_param($tipos, ...$params);
 $st->execute();
 $filas = $st->get_result()->fetch_all(MYSQLI_ASSOC);
 
+/* Totales reales por usuario (ignoran el filtro de estado) */
+$totUsuario = [];
+$rt = $conexion->query("SELECT usuario_id, estado, COUNT(*) c FROM reportes WHERE usuario_id IS NOT NULL GROUP BY usuario_id, estado");
+while ($t = $rt->fetch_assoc()) {
+    $totUsuario[(int)$t['usuario_id']][$t['estado']] = (int)$t['c'];
+}
+
 /* ===================== AGRUPAR ===================== */
 $grupos = [];
 foreach ($filas as $r) {
     $ts = strtotime($r['fecha']);
     if ($vista === 'usuario') {
-        $clave  = $r['usuario_id'] ? 'u' . $r['usuario_id'] : 'n' . $r['nombre'];
-        $titulo = $r['nombre'];
-        $orden  = $ts; // el usuario con la denuncia más reciente va primero
+        $clave       = $r['usuario_id'] ? 'u' . $r['usuario_id'] : 'n' . $r['nombre'];
+        $nombreGrupo = $r['nombre'];
     } elseif ($vista === 'dia') {
-        $clave  = date('Y-m-d', $ts);
-        $titulo = date('d/m/Y', $ts);
+        $clave       = date('Y-m-d', $ts);
+        $nombreGrupo = date('d/m/Y', $ts);
     } else {
-        $lunes  = strtotime('monday this week', $ts);
-        $clave  = date('Y-m-d', $lunes);
-        $titulo = 'Semana del ' . date('d/m', $lunes) . ' al ' . date('d/m/Y', strtotime('+6 day', $lunes));
+        $lunes       = strtotime('monday this week', $ts);
+        $clave       = date('Y-m-d', $lunes);
+        $nombreGrupo = 'Semana del ' . date('d/m', $lunes) . ' al ' . date('d/m/Y', strtotime('+6 day', $lunes));
     }
     if (!isset($grupos[$clave])) {
-        $grupos[$clave] = ['titulo' => $titulo, 'items' => [], 'pend' => 0, 'ultima' => $r['fecha']];
+        $grupos[$clave] = [
+            'titulo' => $nombreGrupo,
+            'items'  => [],
+            'ultima' => $r['fecha'],
+            'uid'    => $r['usuario_id'],
+            'est'    => ['pendiente' => 0, 'en proceso' => 0, 'resuelto' => 0],
+        ];
     }
     $grupos[$clave]['items'][] = $r;
-    if ($r['estado'] === 'pendiente') $grupos[$clave]['pend']++;
+    if (isset($grupos[$clave]['est'][$r['estado']])) $grupos[$clave]['est'][$r['estado']]++;
 }
 
 /* Detalle de cada denuncia */
@@ -121,7 +141,7 @@ function url(array $cambios): string {
       <a href="/PROYECTO_PAGE/auth/logout.php" class="salir">Cerrar sesión</a>
     </nav>
 
-    <h1>Reportes recibidos</h1>
+    <h1><?= e($tituloPagina) ?></h1>
 
     <!-- ============ FILTROS ============ -->
     <section class="filtros">
@@ -167,7 +187,13 @@ function url(array $cambios): string {
           <span class="g-nombre"><?= e($g['titulo']) ?></span>
           <span class="g-info">
             <b class="g-total"><?= count($g['items']) ?> denuncia<?= count($g['items']) === 1 ? '' : 's' ?></b>
-            <?php if ($g['pend'] > 0): ?><b class="g-pend"><?= $g['pend'] ?> pendiente<?= $g['pend'] === 1 ? '' : 's' ?></b><?php endif; ?>
+            <?php if ($g['est']['pendiente']): ?><b class="g-pend"><?= $g['est']['pendiente'] ?> pendiente<?= $g['est']['pendiente'] === 1 ? '' : 's' ?></b><?php endif; ?>
+            <?php if ($g['est']['en proceso']): ?><b class="g-proc"><?= $g['est']['en proceso'] ?> en proceso</b><?php endif; ?>
+            <?php if ($g['est']['resuelto']): ?><b class="g-res"><?= $g['est']['resuelto'] ?> resuelta<?= $g['est']['resuelto'] === 1 ? '' : 's' ?></b><?php endif; ?>
+            <?php if ($vista === 'usuario' && $g['uid']): ?>
+              <?php $t = $totUsuario[(int)$g['uid']] ?? []; ?>
+              <small>Total del usuario: <?= array_sum($t) ?> (<?= $t['pendiente'] ?? 0 ?> pend. · <?= $t['en proceso'] ?? 0 ?> proc. · <?= $t['resuelto'] ?? 0 ?> res.)</small>
+            <?php endif; ?>
             <small>Última: <?= e(date('d/m/Y H:i', strtotime($g['ultima']))) ?></small>
           </span>
         </summary>

@@ -19,9 +19,19 @@ $nombreCompleto = $_SESSION['usuario']['nombre'] . ' ' . $_SESSION['usuario']['a
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Nueva denuncia · Denuncia Digital</title>
-  <link rel="stylesheet" href="../assets_css/style_reporte.css">
+  
+  <link rel="stylesheet" href="/PROYECTO_PAGE/assets_css/style_notificaciones.css">
+  <link rel="stylesheet" href="/PROYECTO_PAGE/assets_css/style_reporte.css">
 </head>
 <body>
+  <div class="pagina">
+    <nav class="nav-sup">
+      <a href="/PROYECTO_PAGE/index.php">Inicio</a>
+      <a href="/PROYECTO_PAGE/reportes/reporte.php" class="activo">Nueva denuncia</a>
+      <a href="/PROYECTO_PAGE/reportes/mis_reporte.php">Mis denuncias</a>
+      <span id="campana"></span>
+      <a href="/PROYECTO_PAGE/auth/logout.php" class="salir">Cerrar sesión</a>
+    </nav>
   <main class="contenedor">
     <h1>Registrar denuncia</h1>
     <p class="sub">Cuéntanos qué ocurre en tu zona.</p>
@@ -54,11 +64,6 @@ $nombreCompleto = $_SESSION['usuario']['nombre'] . ' ' . $_SESSION['usuario']['a
       <button type="submit" id="btnEnviar">Enviar denuncia</button>
       <p id="mensaje" role="status"></p>
     </form>
-
-    <div class="enlaces">
-      <a href="../index.php" class="volver">Volver al inicio</a>
-      <a href="mis_reporte.php" class="volver">Mis denuncias</a>
-    </div>
   </main>
   <div class="resultado-fondo" id="resultado" hidden>
   <div class="resultado-caja" role="alertdialog" aria-modal="true" aria-labelledby="resTitulo">
@@ -70,5 +75,7 @@ $nombreCompleto = $_SESSION['usuario']['nombre'] . ' ' . $_SESSION['usuario']['a
 </div>
 
   <script src="../assets_js/script_reporte.js"></script>
+  <script src="/PROYECTO_PAGE/assets_js/script_notificaciones.js"></script>
+  <script src="/PROYECTO_PAGE/assets_js/script_logout.js"></script>
 </body>
 </html>

@@ -275,3 +275,15 @@ tbody tr:hover td { background: rgba(56, 189, 248, .04); }
 .grupo-cuerpo { padding: 4px 16px 6px; border-top: 1px solid var(--line); }
 .grupo-cuerpo .tarjeta { margin: 14px 0; }
 .panel.ancho { max-width: none; width: 100%; }
+.g-proc { padding: 3px 11px; font-size: .74rem; border-radius: 999px; color: #fbbf24; background: rgba(251, 191, 36, .13); }
+.g-res  { padding: 3px 11px; font-size: .74rem; border-radius: 999px; color: var(--ok); background: rgba(52, 211, 153, .13); }
+.navegacion a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 16px;
+  line-height: 1;
+  font-size: .9rem;
+}
+.navegacion #campana .camp-btn { height: 44px; width: 44px; }
